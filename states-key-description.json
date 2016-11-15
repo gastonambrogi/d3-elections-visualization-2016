@@ -1,0 +1,305 @@
+[
+  {
+    "id": "1",
+    "key": "AL",
+    "description": "Alabama"
+  },
+  {
+    "id": "2",
+    "key": "AK",
+    "description": "Alaska"
+  },
+  {
+    "id": "4",
+    "key": "AZ",
+    "description": "Arizona"
+  },
+  {
+    "id": "5",
+    "key": "AR",
+    "description": "Arkansas"
+  },
+  {
+    "id": "6",
+    "key": "CA",
+    "description": "California"
+  },
+  {
+    "id": "8",
+    "key": "CO",
+    "description": "Colorado"
+  },
+  {
+    "id": "9",
+    "key": "CT",
+    "description": "Connecticut"
+  },
+  {
+    "id": "10",
+    "key": "DE",
+    "description": "Delaware"
+  },
+  {
+    "id": "11",
+    "key": "DC",
+    "description": "District of Columbia"
+  },
+  {
+    "id": "12",
+    "key": "FL",
+    "description": "Florida"
+  },
+  {
+    "id": "13",
+    "key": "GA",
+    "description": "Georgia"
+  },
+  {
+    "id": "15",
+    "key": "HI",
+    "description": "Hawaii"
+  },
+  {
+    "id": "16",
+    "key": "ID",
+    "description": "Idaho"
+  },
+  {
+    "id": "17",
+    "key": "IL",
+    "description": "Illinois"
+  },
+  {
+    "id": "18",
+    "key": "IN",
+    "description": "Indiana"
+  },
+  {
+    "id": "19",
+    "key": "IA",
+    "description": "Iowa"
+  },
+  {
+    "id": "20",
+    "key": "KS",
+    "description": "Kansas"
+  },
+  {
+    "id": "21",
+    "key": "KY",
+    "description": "Kentucky"
+  },
+  {
+    "id": "22",
+    "key": "LA",
+    "description": "Louisiana"
+  },
+  {
+    "id": "23",
+    "key": "ME",
+    "description": "Maine"
+  },
+  {
+    "id": "24",
+    "key": "MD",
+    "description": "Maryland"
+  },
+  {
+    "id": "25",
+    "key": "MA",
+    "description": "Massachusetts"
+  },
+  {
+    "id": "26",
+    "key": "MI",
+    "description": "Michigan"
+  },
+  {
+    "id": "27",
+    "key": "MN",
+    "description": "Minnesota"
+  },
+  {
+    "id": "28",
+    "key": "MS",
+    "description": "Mississippi"
+  },
+  {
+    "id": "29",
+    "key": "MO",
+    "description": "Missouri"
+  },
+  {
+    "id": "30",
+    "key": "MT",
+    "description": "Montana"
+  },
+  {
+    "id": "31",
+    "key": "NE",
+    "description": "Nebraska"
+  },
+  {
+    "id": "32",
+    "key": "NV",
+    "description": "Nevada"
+  },
+  {
+    "id": "33",
+    "key": "NH",
+    "description": "New Hampshire"
+  },
+  {
+    "id": "34",
+    "key": "NJ",
+    "description": "New Jersey"
+  },
+  {
+    "id": "35",
+    "key": "NM",
+    "description": "New Mexico"
+  },
+  {
+    "id": "36",
+    "key": "NY",
+    "description": "New York"
+  },
+  {
+    "id": "37",
+    "key": "NC",
+    "description": "North Carolina"
+  },
+  {
+    "id": "38",
+    "key": "ND",
+    "description": "North Dakota"
+  },
+  {
+    "id": "39",
+    "key": "OH",
+    "description": "Ohio"
+  },
+  {
+    "id": "40",
+    "key": "OK",
+    "description": "Oklahoma"
+  },
+  {
+    "id": "41",
+    "key": "OR",
+    "description": "Oregon"
+  },
+  {
+    "id": "42",
+    "key": "PA",
+    "description": "Pennsylvania"
+  },
+  {
+    "id": "44",
+    "key": "RI",
+    "description": "Rhode Island"
+  },
+  {
+    "id": "45",
+    "key": "SC",
+    "description": "South Carolina"
+  },
+  {
+    "id": "46",
+    "key": "SD",
+    "description": "South Dakota"
+  },
+  {
+    "id": "47",
+    "key": "TN",
+    "description": "Tennessee"
+  },
+  {
+    "id": "48",
+    "key": "TX",
+    "description": "Texas"
+  },
+  {
+    "id": "49",
+    "key": "UT",
+    "description": "Utah"
+  },
+  {
+    "id": "50",
+    "key": "VT",
+    "description": "Vermont"
+  },
+  {
+    "id": "51",
+    "key": "VA",
+    "description": "Virginia"
+  },
+  {
+    "id": "53",
+    "key": "WA",
+    "description": "Washington"
+  },
+  {
+    "id": "54",
+    "key": "WV",
+    "description": "West Virginia"
+  },
+  {
+    "id": "55",
+    "key": "WI",
+    "description": "Wisconsin"
+  },
+  {
+    "id": "56",
+    "key": "WY",
+    "description": "Wyoming"
+  },
+  {
+    "id": "60",
+    "key": "AS",
+    "description": "America Samoa"
+  },
+  {
+    "id": "64",
+    "key": "FM",
+    "description": "Federated States of Micronesia"
+  },
+  {
+    "id": "66",
+    "key": "GU",
+    "description": "Guam"
+  },
+  {
+    "id": "68",
+    "key": "MH",
+    "description": "Marshall Islands"
+  },
+  {
+    "id": "69",
+    "key": "MP",
+    "description": "Northern Mariana Islands"
+  },
+  {
+    "id": "70",
+    "key": "PW",
+    "description": "Palau"
+  },
+  {
+    "id": "72",
+    "key": "PR",
+    "description": "Puerto Rico"
+  },
+  {
+    "id": "74",
+    "key": "UM",
+    "description": "U.S. Minor Outlying Islands"
+  },
+  {
+    "id": "78",
+    "key": "VI",
+    "description": "Virgin Islands of the United States"
+  },
+  {
+    "id": ""
+  }
+]
