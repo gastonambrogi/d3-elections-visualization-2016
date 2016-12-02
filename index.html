@@ -4,31 +4,30 @@
   <meta charset="utf-8">
   <style>
 
-  .background {
-    fill: none;
-    pointer-events: all;
-  }
+    .background {
+      fill: none;
+      pointer-events: all;
+    }
 
-  #states {
-    fill: #aaa;
-  }
+    #states {
+      fill: #aaa;
+    }
 
-  #states .active {
-    fill: orange;
-  }
+    #states .active {
+      fill: orange;
+    }
 
-  #state-borders {
-    fill: none;
-    stroke: #fff;
-    stroke-width: 1.5px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    pointer-events: none;
-  }
-body {
-  font: 10px sans-serif;
-}
-
+    #state-borders {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+  </style>
+  <style>
+    
 .axis path,
 .axis line {
   fill: none;
@@ -77,7 +76,6 @@ body {
   left: 0;
 }
   </style>
-
     <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -94,15 +92,33 @@ body {
 </head>
 
 <body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          TABI 2016
+        </a>
+        <p class="navbar-text navbar-right">Trabajo Final - Se tomaron datos de Twitter, HuffingtonPost y se visualizan usando la libreria D3.</p>
+      </div>
+    </div>
+  </nav>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-9">
-        <svg width="960" height="500"></svg>
-      </div>
-      <div class="col-md-3">
-        <div class="panel panel-default">
+
+      <div class="panel panel-default states-panel">
           <div class="panel-heading">
             <h3 class="panel-title">Seleccione un estado</h3>
+          </div>
+          <div class="panel-body">
+            <svg width="960" height="500"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="panel panel-default results-panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Resultados de la encuesta</h3>
           </div>
           <div class="panel-body">
             <p></p>
@@ -116,8 +132,22 @@ body {
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <script>
+
+    function state_description_from_id(d){      
+      return _.filter(states_key_desc, function(data){
+        return data.id == d.id;
+      })[0];
+    }
+
     // Load the Visualization API and the piechart package.
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return state_description_from_id(d).description;
+    });
 
     var width = 960,
         height = 500,
@@ -133,12 +163,13 @@ body {
         .projection(projection);
 
     var svg = d3.select("body").select("svg");
-
+    
+    svg.call(tip);
+    
     svg.append("rect")
         .attr("class", "background")
         .attr("width", width)
-        .attr("height", height)
-        .on("click", clicked);
+        .attr("height", height);
 
     var g = svg.append("g");
 
@@ -161,7 +192,9 @@ body {
           .data(topojson.feature(us, us.objects.states).features)
         .enter().append("path")
           .attr("d", path)
-          .on("click", clicked);
+          .on("click", clicked)
+          .on('mouseover', tip.show)
+          .on('mouseout', tip.hide);
 
       g.append("path")
           .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
@@ -172,8 +205,8 @@ body {
     function clicked(d) {
       var x, y, k;
 
-      $('.panel-title').html("");
-      $('.panel-body p').html("");
+      $('.states-panel .panel-title').html("");
+      $('.states-panel .panel-body p').html("");
       $('#chart').html("");
       
       if (d && centered !== d) {
@@ -198,20 +231,18 @@ body {
           .style("stroke-width", 1.5 / k + "px");
 
       if(centered){
-        var st_clicked = _.filter(states_key_desc, function(data){
-          return data.id == d.id;
-        });
+        var st_clicked = state_description_from_id(d);
 
         var chart_result = _.filter(state_chart_president, function(st_chart){
-          return st_chart.state == st_clicked[0].key;
+          return st_chart.state == st_clicked.key;
         })[0];
 
-        $('.panel-title').html(st_clicked[0].description + " ("+st_clicked[0].key+")");
+        $('.states-panel .panel-title').html(st_clicked.description + " ("+st_clicked.key+")");
         
         if(chart_result === undefined){
-          $('.panel-body p').html("No se realizaron encuestas en este estado.");
+          $('.results-panel .panel-body p').html("No se realizaron encuestas en este estado.");
         }else{        
-          $('.panel-body p').html("Encuestados: "+chart_result.poll_count);
+          $('.results-panel .panel-body p').html("Encuestados: "+chart_result.poll_count);
           
           var mapped_results=_.map(chart_result.estimates, function(e){
             return { label: e.choice, value: +e.value };
@@ -223,12 +254,11 @@ body {
           });
         }
       }else{
-        $('.panel-title').html("Seleccione un estado");
-        $('.panel-body p').html("");
+        $('.states-panel .panel-title').html("Seleccione un estado");
+        $('.results-panel .panel-body p').html("");
         $('#chart').html("");
       }
     }
-
     </script>
   </script>
 </body>
