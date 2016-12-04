@@ -156,20 +156,20 @@
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <!--Iterar tweets.json y mostrarlos -->
   <script>
-  var arr=$.getJSON('tweets.json');
+    var arr=$.getJSON('tweets.json',function(arr){
+      $.each(arr, function(i, tweet) {
 
-  jQuery.each(arr, function(i, tweet) {
-      
-      setTimeout(function(){
-        console.log("iteracion");
-      $('.text-tweet').text(tweet.text);
-      $('.media-object').attr('src', tweet.imageURL);
-      $('.date-tweet').text(tweet.date);
-      $('.media-heading').text(tweet.username);
-      },i*2000)
-      
-    
-  });
+        setTimeout(function(){
+          console.log("iteracion");
+          $('.text-tweet').text(tweet.text);
+          $('.media-object').attr('src', tweet.imageURL);
+          $('.date-tweet').text(tweet.date);
+          $('.media-heading').text(tweet.username);
+        },i*2000);
+      });
+    });
+
+
   </script>
 
   <script>
