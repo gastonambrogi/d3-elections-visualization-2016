@@ -89,6 +89,8 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+
 </head>
 
 <body>
@@ -127,12 +129,49 @@
         </div>
       </div>
     </div>
-  </div>
 
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="media">
+          
+            <img class="media-object" alt="" src="">
+                    
+          <div class="media-body">
+            <h4 class="media-heading">
+              <small class="date-tweet"></small>
+            </h4>
+            <span class="text-tweet"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/phemejatu1976/status/805476475214463000"></a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <!--Iterar tweets.json y mostrarlos -->
+  <script>
+  var arr=$.getJSON('tweets.json');
+
+  jQuery.each(arr, function(i, tweet) {
+      
+      setTimeout(function(){
+        console.log("iteracion");
+      $('.text-tweet').text(tweet.text);
+      $('.media-object').attr('src', tweet.imageURL);
+      $('.date-tweet').text(tweet.date);
+      $('.media-heading').text(tweet.username);
+      },i*2000)
+      
+    
+  });
+  </script>
+
   <script>
 
     function state_description_from_id(d){      
