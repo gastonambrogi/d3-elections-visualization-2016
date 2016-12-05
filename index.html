@@ -137,7 +137,7 @@
       <div class="col-md-4">
         <h2>#VoteTrump</h2>
         <ul class="timeline trump">
-          <li>
+          <li id="trump-tweet">
             <div class="avatar">
               <a id="url-tweet-trump" class="icon-twitter" href="" target="_blank">
                 <img id="image-tweet-trump" src="">        
@@ -158,6 +158,7 @@
       <h2>#VoteClinton</h2>
         <ul class="timeline clinton">
           <li>
+          <span id="clinton-tweet">
             <div class="avatar">
               <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
                 <img id="image-tweet-clinton" src="">        
@@ -171,6 +172,7 @@
               <small id="date-tweet-clinton"></small>
               <div class="arrow"></div>
             </div>
+          </span>  
           </li>
         </ul>  
       </div>      
@@ -199,29 +201,37 @@
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <!--Iterar tweets.json y mostrarlos -->
   <script>
-    var arr=$.getJSON('tweets.json',function(arr){
-      $.each(arr, function(i, tweet) {
 
+    var arr=$.getJSON('tweets-votetrump.json',function(arr){
+    // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/votetrump/2016-11-01/2016-11-08',function(arr){
+      $.each(arr, function(i, tweet) {
+        
         setTimeout(function(){
           $('#text-tweet-trump').text(tweet.text);
           $('#image-tweet-trump').attr('src', tweet.imageURL);
           $('#date-tweet-trump').text(tweet.date);
           $('#user-tweet-trump').text('@'.concat(tweet.username));
           $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
+          
         },i*2000);
       });
     });
 
-    var arr=$.getJSON('tweets.json',function(arr){
+    var arr=$.getJSON('tweets-voteclinton.json',function(arr){
+     // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/voteclinton/2016-11-01/2016-11-08',function(arr){
       $.each(arr, function(i, tweet) {
-
+          
         setTimeout(function(){
+
           $('#text-tweet-clinton').text(tweet.text);
           $('#image-tweet-clinton').attr('src', tweet.imageURL);
           $('#date-tweet-clinton').text(tweet.date);
           $('#user-tweet-clinton').text('@'.concat(tweet.username));
           $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
+          
         },i*2000);
+        //;
+
       });
     });
 
