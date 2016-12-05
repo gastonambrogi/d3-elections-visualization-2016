@@ -27,7 +27,7 @@
     }
   </style>
   <style>
-        
+
     .axis path,
     .axis line {
       fill: none;
@@ -74,9 +74,10 @@
       margin: -1px 0 0 0;
       top: 100%;
       left: 0;
+
     }
   </style>
-    <!-- Latest compiled and minified CSS -->
+  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <!-- Optional theme -->
@@ -90,14 +91,8 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-  <script src="//d3js.org/d3.v3.min.js"></script>
-  <script src="//d3js.org/topojson.v1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
-  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css">
   <link rel="stylesheet" type="text/css" href="style-tweets.css">
+
 </head>
 
 <body>
@@ -114,6 +109,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-9">
+
         <div class="panel panel-default states-panel">
           <div class="panel-heading">
             <h3 class="panel-title">Seleccione un estado</h3>
@@ -136,11 +132,6 @@
       </div>
     </div>
 
-    <!--<div class="row">
-      <div class="col-md-12">
-        <div id="visualization"></div>
-      </div>
-    </div>-->
 
     <div class="row">
       <div class="col-md-4">
@@ -186,139 +177,18 @@
         </ul>  
       </div>
     </div>
+
+
   </div>
-
+  <blockquote class="twitter-tweet"><a href="https://twitter.com/phemejatu1976/status/805476475214463000"></a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <!--Iterar tweets.json y mostrarlos -->
   <script>
 
-    function state_description_from_id(d){      
-      return _.filter(states_key_desc, function(data){
-        return data.id == d.id;
-      })[0];
-    }
-
-      // Load the Visualization API and the piechart package.
-    var tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10, 0])
-      .html(function(d) {
-        return state_description_from_id(d).description;
-      });
-
-      var width = 960,
-          height = 500,
-          centered,
-          states_key_desc,
-          state_chart_president;
-
-      var projection = d3.geo.albersUsa()
-          .scale(1070)
-          .translate([width / 2, height / 2]);
-
-      var path = d3.geo.path()
-          .projection(projection);
-
-      var svg = d3.select("body").select("svg");
-      
-      svg.call(tip);
-      
-      svg.append("rect")
-          .attr("class", "background")
-          .attr("width", width)
-          .attr("height", height);
-
-      var g = svg.append("g");
-
-      d3.json("charts.json", function(e, charts){
-        state_chart_president = _.filter(charts, function(chart){
-          return chart.topic == "2016-president";
-        });
-      });
-
-      d3.json("states-key-description.json", function(e, st){
-        states_key_desc=st;
-      });
-
-      d3.json("us.json", function(error, us) {
-        if (error) throw error;
-
-        g.append("g")
-            .attr("id", "states")
-          .selectAll("path")
-            .data(topojson.feature(us, us.objects.states).features)
-          .enter().append("path")
-            .attr("d", path)
-            .on("click", clicked)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
-
-        g.append("path")
-            .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-            .attr("id", "state-borders")
-            .attr("d", path);
-      });
-
-      function clicked(d) {
-        var x, y, k;
-
-        $('.states-panel .panel-title').html("");
-        $('.states-panel .panel-body p').html("");
-        $('#chart').html("");
-        
-        if (d && centered !== d) {
-          var centroid = path.centroid(d);
-          x = centroid[0];
-          y = centroid[1];
-          k = 4;
-          centered = d;
-        } else {
-          x = width / 2;
-          y = height / 2;
-          k = 1;
-          centered = null;
-        }
-
-        g.selectAll("path")
-            .classed("active", centered && function(d) { return d === centered; });
-
-        g.transition()
-            .duration(750)
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-            .style("stroke-width", 1.5 / k + "px");
-
-        if(centered){
-          var st_clicked = state_description_from_id(d);
-
-          var chart_result = _.filter(state_chart_president, function(st_chart){
-            return st_chart.state == st_clicked.key;
-          })[0];
-
-          $('.states-panel .panel-title').html(st_clicked.description + " ("+st_clicked.key+")");
-          
-          if(chart_result === undefined){
-            $('.results-panel .panel-body p').html("No se realizaron encuestas en este estado.");
-          }else{        
-            $('.results-panel .panel-body p').html("Encuestados: "+chart_result.poll_count);
-            
-            var mapped_results=_.map(chart_result.estimates, function(e){
-              return { label: e.choice, value: +e.value };
-            });
-
-            Morris.Donut({
-              element: 'chart',
-              data: mapped_results
-            });
-          }
-        }else{
-          $('.states-panel .panel-title').html("Seleccione un estado");
-          $('.results-panel .panel-body p').html("");
-          $('#chart').html("");
-        }
-      }
-  </script>
-
-  <script>
-
-    var tweetsArrTrump=$.getJSON('/trump_tweets',function(arr){
+    var tweetsArrTrump=$.getJSON('/db/trump.json',function(arr){
     // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/votetrump/2016-11-01/2016-11-08',function(arr){
       $.each(arr, function(i, tweet) {
         
@@ -333,11 +203,12 @@
       });
     });
 
-    var tweetsArrClinton=$.getJSON('/clinton_tweets',function(arr){
+    var tweetsArrClinton=$.getJSON('/db/clinton.json',function(arr){
      // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/voteclinton/2016-11-01/2016-11-08',function(arr){
       $.each(arr, function(i, tweet) {
           
         setTimeout(function(){
+
           $('#text-tweet-clinton').text(tweet.text);
           $('#image-tweet-clinton').attr('src', tweet.imageURL);
           $('#date-tweet-clinton').text(tweet.date);
@@ -351,48 +222,133 @@
     });
 
   </script>
-<!--  <script>
-    function convert_to_dataset(tweets, hashtag){
-      return _.map(tweets, function(t){
-        var dd= t.date.split("/");
-        return { 
-          start: new Date(dd[2], dd[1]-1, dd[0]), 
-          content: "@"+t.username,//+": "+t.text,
-          group: hashtag
-        };
-      });
+
+  <script>
+
+    function state_description_from_id(d){      
+      return _.filter(states_key_desc, function(data){
+        return data.id == d.id;
+      })[0];
     }
 
-    var data_trump, data_clinton, timeline;
-    $.when(
-      $.getJSON('/trump_tweets',    function(d){ data_trump   = d }),
-      $.getJSON('/clinton_tweets',  function(d){ data_clinton = d })
-    ).then(function(){
-      var dataset_trump   = convert_to_dataset( data_trump,   "#votetrump"   );
-      var dataset_clinton = convert_to_dataset( data_clinton, "#voteclinton" );
+    // Load the Visualization API and the piechart package.
+    var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return state_description_from_id(d).description;
+    });
 
+    var width = 960,
+    height = 500,
+    centered,
+    states_key_desc,
+    state_chart_president;
 
-      var groups = new vis.DataSet([
-        { id: '#votetrump',   content:'#votetrump',   subgroupOrder: 'subgroupOrder' },
-        { id: '#voteclinton', content:'#voteclinton', subgroupOrder: 'subgroupOrder' }
-      ]);
+    var projection = d3.geo.albersUsa()
+    .scale(1070)
+    .translate([width / 2, height / 2]);
 
+    var path = d3.geo.path()
+    .projection(projection);
 
-      var items = new vis.DataSet(dataset_trump.concat(dataset_clinton));
+    var svg = d3.select("body").select("svg");
+    
+    svg.call(tip);
+    
+    svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height);
 
-      // create visualization
-      var container = document.getElementById('visualization');
-      var options = {
-        height: '5000px',
-        //min: new Date(2016, 7, 1),                // lower limit of visible range
-        //max: new Date(2017, 0, 1),              // upper limit of visible range
-        //zoomMin: 1000 * 60 * 60 * 24 * 7,         // one week in milliseconds
-        //zoomMax: 1000 * 60 * 60 * 24 * 31 * 4     // about four months in milliseconds
-      };
+    var g = svg.append("g");
 
-      // create the timeline
-      timeline = new vis.Timeline(container, items, groups, options);
-    })
+    d3.json("charts.json", function(e, charts){
+      state_chart_president = _.filter(charts, function(chart){
+        return chart.topic == "2016-president";
+      });
+    });
+
+    d3.json("states-key-description.json", function(e, st){
+      states_key_desc=st;
+    });
+
+    d3.json("us.json", function(error, us) {
+      if (error) throw error;
+
+      g.append("g")
+      .attr("id", "states")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter().append("path")
+      .attr("d", path)
+      .on("click", clicked)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+      g.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
+    });
+
+    function clicked(d) {
+      var x, y, k;
+
+      $('.states-panel .panel-title').html("");
+      $('.states-panel .panel-body p').html("");
+      $('#chart').html("");
+      
+      if (d && centered !== d) {
+        var centroid = path.centroid(d);
+        x = centroid[0];
+        y = centroid[1];
+        k = 4;
+        centered = d;
+      } else {
+        x = width / 2;
+        y = height / 2;
+        k = 1;
+        centered = null;
+      }
+
+      g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+      g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+
+      if(centered){
+        var st_clicked = state_description_from_id(d);
+
+        var chart_result = _.filter(state_chart_president, function(st_chart){
+          return st_chart.state == st_clicked.key;
+        })[0];
+
+        $('.states-panel .panel-title').html(st_clicked.description + " ("+st_clicked.key+")");
+        
+        if(chart_result === undefined){
+          $('.results-panel .panel-body p').html("No se realizaron encuestas en este estado.");
+        }else{        
+          $('.results-panel .panel-body p').html("Encuestados: "+chart_result.poll_count);
+          
+          var mapped_results=_.map(chart_result.estimates, function(e){
+            return { label: e.choice, value: +e.value };
+          });
+
+          Morris.Donut({
+            element: 'chart',
+            data: mapped_results
+          });
+        }
+      }else{
+        $('.states-panel .panel-title').html("Seleccione un estado");
+        $('.results-panel .panel-body p').html("");
+        $('#chart').html("");
+      }
+    }
   </script>
--->
+</script>
 </body>
