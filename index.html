@@ -27,56 +27,58 @@
     }
   </style>
   <style>
-    
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
 
-.bar {
-  fill: orange;
-}
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
 
-.bar:hover {
-  fill: orangered ;
-}
+    .bar {
+      fill: orange;
+    }
 
-.x.axis path {
-  display: none;
-}
+    .bar:hover {
+      fill: orangered ;
+    }
 
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
+    .x.axis path {
+      display: none;
+    }
 
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
+    .d3-tip {
+      line-height: 1;
+      font-weight: bold;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border-radius: 2px;
+    }
 
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
+    /* Creates a small triangle extender for the tooltip */
+    .d3-tip:after {
+      box-sizing: border-box;
+      display: inline;
+      font-size: 10px;
+      width: 100%;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.8);
+      content: "\25BC";
+      position: absolute;
+      text-align: center;
+    }
+
+    /* Style northward tooltips differently */
+    .d3-tip.n:after {
+      margin: -1px 0 0 0;
+      top: 100%;
+      left: 0;
+
+    }
   </style>
-    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" href="style-tweets.css">
+  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <!-- Optional theme -->
@@ -108,7 +110,7 @@
     <div class="row">
       <div class="col-md-9">
 
-      <div class="panel panel-default states-panel">
+        <div class="panel panel-default states-panel">
           <div class="panel-heading">
             <h3 class="panel-title">Seleccione un estado</h3>
           </div>
@@ -134,38 +136,63 @@
     <div class="row">
       <div class="col-md-4">
         <h2>#VoteTrump</h2>
-        <div class="media">
-                
-            <img class="media-object pull-left" width="64" alt="" src="">
-                    
-          <div class="media-body">
-            <h4 class="media-heading">
-              <small class="date-tweet"></small>
-            </h4>
-            <span class="text-tweet"></span>
+        <ul class="timeline trump">
+          <li>
+            <div class="avatar">
+              <a id="url-tweet-trump" class="icon-twitter" href="" target="_blank">
+                <img id="image-tweet-trump" src="">        
+              </a>  
             </div>
-        </div>
+            <div class="bubble-container">
+              <div class="bubble">
+                <h3 id="user-tweet-trump"></h3><br/>
+                <span id="text-tweet-trump" class="text-tweet"></span>
+              </div>
+              <small id="date-tweet-trump"></small>
+              <div class="arrow"></div>
+            </div>
+          </li>
+        </ul>  
       </div>
       <div class="col-md-4">
+      <h2>#VoteClinton</h2>
+        <ul class="timeline clinton">
+          <li>
+            <div class="avatar">
+              <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
+                <img id="image-tweet-clinton" src="">        
+              </a>  
+            </div>
+            <div class="bubble-container">
+              <div class="bubble">
+                <h3 id="user-tweet-clinton"></h3><br/>
+                <span id="text-tweet-clinton" class="text-tweet"></span>
+              </div>
+              <small id="date-tweet-clinton"></small>
+              <div class="arrow"></div>
+            </div>
+          </li>
+        </ul>  
+      </div>      
+      <!--<div class="col-md-4">
         <h2>#VoteClinton</h2>
         <div class="media">
                 
             <img class="media-object pull-left" width="64" alt="" src="">
                     
           <div class="media-body">
-            <h4 class="media-heading">
-              <small class="date-tweet"></small>
-            </h4>
+            <h4 class="media-heading"></h4>
+            <small class="date-tweet"></small>
             <span class="text-tweet"></span>
             </div>
         </div>
-      </div>
+      </div>-->
 
     </div>
 
 
   </div>
-<blockquote class="twitter-tweet"><a href="https://twitter.com/phemejatu1976/status/805476475214463000"></a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <blockquote class="twitter-tweet"><a href="https://twitter.com/phemejatu1976/status/805476475214463000"></a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
@@ -176,15 +203,27 @@
       $.each(arr, function(i, tweet) {
 
         setTimeout(function(){
-          console.log("iteracion");
-          $('.text-tweet').text(tweet.text);
-          $('.media-object').attr('src', tweet.imageURL);
-          $('.date-tweet').text(tweet.date);
-          $('.media-heading').text(tweet.username);
+          $('#text-tweet-trump').text(tweet.text);
+          $('#image-tweet-trump').attr('src', tweet.imageURL);
+          $('#date-tweet-trump').text(tweet.date);
+          $('#user-tweet-trump').text('@'.concat(tweet.username));
+          $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
         },i*2000);
       });
     });
 
+    var arr=$.getJSON('tweets.json',function(arr){
+      $.each(arr, function(i, tweet) {
+
+        setTimeout(function(){
+          $('#text-tweet-clinton').text(tweet.text);
+          $('#image-tweet-clinton').attr('src', tweet.imageURL);
+          $('#date-tweet-clinton').text(tweet.date);
+          $('#user-tweet-clinton').text('@'.concat(tweet.username));
+          $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
+        },i*2000);
+      });
+    });
 
   </script>
 
@@ -197,7 +236,7 @@
     }
 
     // Load the Visualization API and the piechart package.
-  var tip = d3.tip()
+    var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
@@ -205,26 +244,26 @@
     });
 
     var width = 960,
-        height = 500,
-        centered,
-        states_key_desc,
-        state_chart_president;
+    height = 500,
+    centered,
+    states_key_desc,
+    state_chart_president;
 
     var projection = d3.geo.albersUsa()
-        .scale(1070)
-        .translate([width / 2, height / 2]);
+    .scale(1070)
+    .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
-        .projection(projection);
+    .projection(projection);
 
     var svg = d3.select("body").select("svg");
     
     svg.call(tip);
     
     svg.append("rect")
-        .attr("class", "background")
-        .attr("width", width)
-        .attr("height", height);
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height);
 
     var g = svg.append("g");
 
@@ -242,19 +281,19 @@
       if (error) throw error;
 
       g.append("g")
-          .attr("id", "states")
-        .selectAll("path")
-          .data(topojson.feature(us, us.objects.states).features)
-        .enter().append("path")
-          .attr("d", path)
-          .on("click", clicked)
-          .on('mouseover', tip.show)
-          .on('mouseout', tip.hide);
+      .attr("id", "states")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter().append("path")
+      .attr("d", path)
+      .on("click", clicked)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
       g.append("path")
-          .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-          .attr("id", "state-borders")
-          .attr("d", path);
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
     });
 
     function clicked(d) {
@@ -278,12 +317,12 @@
       }
 
       g.selectAll("path")
-          .classed("active", centered && function(d) { return d === centered; });
+      .classed("active", centered && function(d) { return d === centered; });
 
       g.transition()
-          .duration(750)
-          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-          .style("stroke-width", 1.5 / k + "px");
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
 
       if(centered){
         var st_clicked = state_description_from_id(d);
@@ -314,6 +353,6 @@
         $('#chart').html("");
       }
     }
-    </script>
   </script>
+</script>
 </body>
