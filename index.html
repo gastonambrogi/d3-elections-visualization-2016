@@ -145,10 +145,10 @@
             </div>
             <div class="bubble-container">
               <div class="bubble">
-                <h3 id="user-tweet-trump"></h3><br/>
+                <h3 id="user-tweet-trump"></h3> <br>
+                <span id="date-tweet-trump"></span> <br>
                 <span id="text-tweet-trump" class="text-tweet"></span>
               </div>
-              <small id="date-tweet-trump"></small>
               <div class="arrow"></div>
             </div>
           </li>
@@ -166,10 +166,10 @@
             </div>
             <div class="bubble-container">
               <div class="bubble">
-                <h3 id="user-tweet-clinton"></h3><br/>
+                <h3 id="user-tweet-clinton"></h3><br>
+                <span id="date-tweet-clinton"></span><br>
                 <span id="text-tweet-clinton" class="text-tweet"></span>
               </div>
-              <small id="date-tweet-clinton"></small>
               <div class="arrow"></div>
             </div>
           </span>  
@@ -202,7 +202,7 @@
   <!--Iterar tweets.json y mostrarlos -->
   <script>
 
-    var arr=$.getJSON('tweets-votetrump.json',function(arr){
+    var tweetsArrTrump=$.getJSON('tweets-votetrump.json',function(arr){
     // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/votetrump/2016-11-01/2016-11-08',function(arr){
       $.each(arr, function(i, tweet) {
         
@@ -217,7 +217,7 @@
       });
     });
 
-    var arr=$.getJSON('tweets-voteclinton.json',function(arr){
+    var tweetsArrClinton=$.getJSON('tweets-voteclinton.json',function(arr){
      // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/voteclinton/2016-11-01/2016-11-08',function(arr){
       $.each(arr, function(i, tweet) {
           
