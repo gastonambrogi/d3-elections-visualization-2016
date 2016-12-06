@@ -77,6 +77,43 @@
 
     }
   </style>
+
+  <!--ESTILO PNOTIFY-->
+  <style>
+    .ui-pnotify.custom .ui-pnotify-container {
+      background-color: #404040 !important;
+      background-image: none !important;
+      border: none !important;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+    }
+    .ui-pnotify.custom .ui-pnotify-title, .ui-pnotify.custom .ui-pnotify-text {
+      font-family: Arial, Helvetica, sans-serif !important;
+      text-shadow: 2px 2px 3px black !important;
+      font-size: 10pt !important;
+      color: #FFF !important;
+      padding-left: 50px !important;
+      line-height: 1 !important;
+      text-rendering: geometricPrecision !important;
+    }
+    .ui-pnotify.custom .ui-pnotify-title {
+      font-weight: bold;
+    }
+    .ui-pnotify.custom .ui-pnotify-icon {
+      float: left;
+      
+    }
+    .ui-pnotify.custom .fa {
+      margin: 3px;
+      width: 33px;
+      height: 33px;
+      font-size: 33px;
+      color: #FF0;
+    }
+
+  </style>
+  <link rel="stylesheet" type="text/css" href="style-tweets.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -90,8 +127,9 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  <script src="pnotify.custom.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="style-tweets.css">
+  <link rel="stylesheet" type="text/css" href="pnotify.custom.min.css">
 
 </head>
 
@@ -155,81 +193,189 @@
         </ul>  
       </div>
       <div class="col-md-4">
-      <h2>#VoteClinton</h2>
+        <h2>#VoteClinton</h2>
         <ul class="timeline clinton">
           <li>
-          <span id="clinton-tweet">
-            <div class="avatar">
-              <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
-                <img id="image-tweet-clinton" src="">        
-              </a>  
-            </div>
-            <div class="bubble-container">
-              <div class="bubble">
-                <h3 id="user-tweet-clinton"></h3><br>
-                <span id="date-tweet-clinton"></span><br>
-                <span id="text-tweet-clinton" class="text-tweet"></span>
+            <span id="clinton-tweet">
+              <div class="avatar">
+                <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
+                  <img id="image-tweet-clinton" src="">        
+                </a>  
               </div>
-              <div class="arrow"></div>
-            </div>
-          </span>  
+              <div class="bubble-container">
+                <div class="bubble">
+                  <h3 id="user-tweet-clinton"></h3><br>
+                  <span id="date-tweet-clinton"></span><br>
+                  <span id="text-tweet-clinton" class="text-tweet"></span>
+                </div>
+                <div class="arrow"></div>
+              </div>
+            </span>  
           </li>
         </ul>  
       </div>
+      <div class="col-md-4">
+        <h2>Tweets Recientes</h2>
+
+        <div id="recientes">
+
+        </div>
+        
+      </div>            
+      <!--<div class="col-md-4">
+        <h2>#VoteClinton</h2>
+        <div class="media">
+                
+            <img class="media-object pull-left" width="64" alt="" src="">
+                    
+          <div class="media-body">
+            <h4 class="media-heading"></h4>
+            <small class="date-tweet"></small>
+            <span class="text-tweet"></span>
+            </div>
+        </div>
+      </div>-->
+
     </div>
 
 
   </div>
-  <blockquote class="twitter-tweet"><a href="https://twitter.com/phemejatu1976/status/805476475214463000"></a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.17.1/lodash.min.js"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <!--Iterar tweets.json y mostrarlos -->
+  
   <script>
 
-    var tweetsArrTrump=$.getJSON('/db/trump.json',function(arr){
-    // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/votetrump/2016-11-01/2016-11-08',function(arr){
-      $.each(arr, function(i, tweet) {
-        
-        setTimeout(function(){
-          $('#text-tweet-trump').text(tweet.text);
-          $('#image-tweet-trump').attr('src', tweet.imageURL);
-          $('#date-tweet-trump').text(tweet.date);
-          $('#user-tweet-trump').text('@'.concat(tweet.username));
-          $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
-          
-        },i*2000);
-      });
-    });
 
-    var tweetsArrClinton=$.getJSON('/db/clinton.json',function(arr){
-     // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/voteclinton/2016-11-01/2016-11-08',function(arr){
-      $.each(arr, function(i, tweet) {
-          
-        setTimeout(function(){
 
-          $('#text-tweet-clinton').text(tweet.text);
-          $('#image-tweet-clinton').attr('src', tweet.imageURL);
-          $('#date-tweet-clinton').text(tweet.date);
-          $('#user-tweet-clinton').text('@'.concat(tweet.username));
-          $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
-          
-        },i*2000);
-        //;
+    function show_stack_context(type, modal) {
+      if (typeof stack_context === "undefined") stack_context = {
+        "dir1": "down",
+        "dir2": "down",
+        "context": $("#recientes")
+      };
+      if (typeof stack_context_modal === "undefined") stack_context_modal = {
+        "dir1": "down",
+        "dir2": "down",
+        "context": $("#recientes"),
+        "modal": true,
+        "overlay_close": true
+      };
+ /*   var opts = {
+        title: "Over Here",
+        text: "Check me out. I'm in a different stack.",
+        stack: modal ? stack_context_modal : stack_context,
+        addclass: modal ? "stack-modal" : ""
+      };*/
 
-      });
-    });
+      switch (type) {
+        case 'error':
+        opts.title = "Oh No";
+        opts.text = "Watch out for that water tower!";
+        opts.type = "error";
+        break;
+        case 'info':
+        opts.title = "Breaking News";
+        opts.text = "Have you met Ted?";
+        opts.type = "info";
+        break;
+        case 'success':
+        opts.title = "Good News Everyone";
+        opts.text = "I've invented a device that bites shiny metal asses.";
+        opts.type = "success";
+        break;
+      }
+//    new PNotify(opts);
 
-  </script>
 
-  <script>
-
-    function state_description_from_id(d){      
-      return _.filter(states_key_desc, function(data){
-        return data.id == d.id;
-      })[0];
+$.getJSON('http://twitterelections.herokuapp.com/tweets/recent/voteclinton',function(arr){ 
+ var index = 0;
+ setInterval(function() {
+  var tweet = arr[index++];
+      /*var notify = {
+        title: tweet.username,
+        text: tweet.date.concat(" - ").concat(tweet.text),
+        icon: 'fa '.concat(tweet.imageURL),
+        stack: modal ? stack_context_modal : stack_context,
+        addclass: modal ? "stack-modal" : ""
+      };*/
+      var notify={
+       title: tweet.username,
+       text: tweet.date.concat(" - ").concat(tweet.text),
+       addclass: 'custom',
+       icon: 'fa fa-file-image-o',
+      
+      desktop: {
+        desktop: true,
+        icon: tweet.imageURL,
+      },
+      opacity: .8,
+      stack: modal ? stack_context_modal : stack_context,
     }
+
+    
+      if (index == arr.length)
+        index = 0
+
+
+      new PNotify(notify); 
+      $('.ui-pnotify-icon').css('background-image', 'url('+tweet.imageURL+')');
+    }, 4000);
+
+});
+
+}
+show_stack_context('notice');
+</script>
+
+<script>
+
+
+  $.getJSON('tweets-votetrump.json',function(arr){ 
+    var index = 0;
+    setInterval(function() {
+      var tweet = arr[index++];
+      $('#text-tweet-trump').text(tweet.text);
+      $('#image-tweet-trump').attr('src', tweet.imageURL);
+      $('#date-tweet-trump').text(tweet.date);
+      $('#user-tweet-trump').text('@'.concat(tweet.username));
+      $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
+      if (index == arr.length)
+        index = 0
+
+    }, 2000);
+
+  });
+
+
+  $.getJSON('tweets-voteclinton.json',function(arr)
+  { 
+    var index = 0;
+    setInterval(function() {
+      var tweet = arr[index++];
+      $('#text-tweet-clinton').text(tweet.text);
+      $('#image-tweet-clinton').attr('src', tweet.imageURL);
+      $('#date-tweet-clinton').text(tweet.date);
+      $('#user-tweet-clinton').text('@'.concat(tweet.username));
+      $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
+      if (index == arr.length)
+        index = 0
+
+    }, 2000);
+
+  });
+
+</script>
+
+<script>
+
+  function state_description_from_id(d){      
+    return _.filter(states_key_desc, function(data){
+      return data.id == d.id;
+    })[0];
+  }
 
     // Load the Visualization API and the piechart package.
     var tip = d3.tip()

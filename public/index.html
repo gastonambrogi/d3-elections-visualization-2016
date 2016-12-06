@@ -76,6 +76,42 @@
       left: 0;
     }
   </style>
+   <!--ESTILO PNOTIFY-->
+  <style>
+    .ui-pnotify.custom .ui-pnotify-container {
+      background-image: none !important;
+      border: none !important;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      margin-top: 30px !important;
+    }
+
+    .ui-pnotify.custom .ui-pnotify-title, .ui-pnotify.custom .ui-pnotify-text {
+      font-family: Arial, Helvetica, sans-serif !important;
+      text-shadow: 2px 2px 3px black !important;
+      font-size: 10pt !important;
+      color: #FFF !important;
+      padding-left: 50px !important;
+      line-height: 1 !important;
+      text-rendering: geometricPrecision !important;
+    }
+    .ui-pnotify.custom .ui-pnotify-title {
+      font-weight: bold;
+    }
+    .ui-pnotify.custom .ui-pnotify-icon {
+      float: left;
+      
+    }
+    .ui-pnotify.custom .fa {
+      margin: 3px;
+      width: 33px;
+      height: 33px;
+      font-size: 33px;
+      color: #FF0;
+    }
+
+  </style>
     <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -98,6 +134,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css">
   <link rel="stylesheet" type="text/css" href="style-tweets.css">
+
+  <script src="pnotify.custom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="pnotify.custom.min.css">
 </head>
 
 <body>
@@ -194,6 +233,11 @@
           </span>  
           </li>
         </ul>  
+      </div>
+
+      <div class="col-md-3">
+        <h2>Tweets Recientes</h2>
+        <div id="recientes" style="height:200px;"></div>
       </div>
     </div>
   </div>
@@ -348,42 +392,114 @@
       }
   </script>
 
-  <script>
+<script>
+PNotify.prototype.options.delay=1000;
+  function show_stack_context(type, modal) {
+    if (typeof stack_context === "undefined") stack_context = {
+      "dir1": "down",
+      "dir2": "down",
+      "context": $("#recientes")
+    };
+    if (typeof stack_context_modal === "undefined") stack_context_modal = {
+      "dir1": "down",
+      "dir2": "down",
+      "context": $("#recientes"),
+      "modal": true,
+      "overlay_close": true
+    };
 
-    var tweetsArrTrump=$.getJSON('/trump_tweets',function(arr){
-    // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/votetrump/2016-11-01/2016-11-08',function(arr){
-      $.each(arr, function(i, tweet) {
-        
-        setTimeout(function(){
-          $('#text-tweet-trump').text(tweet.text);
-          $('#image-tweet-trump').attr('src', tweet.imageURL);
-          $('#date-tweet-trump').text(tweet.date);
-          $('#user-tweet-trump').text('@'.concat(tweet.username));
-          $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
-          
-        },i*2000);
-      });
-    });
+    switch (type) {
+      case 'error':
+      opts.title = "Oh No";
+      opts.text = "Watch out for that water tower!";
+      opts.type = "error";
+      break;
+      case 'info':
+      opts.title = "Breaking News";
+      opts.text = "Have you met Ted?";
+      opts.type = "info";
+      break;
+      case 'success':
+      opts.title = "Good News Everyone";
+      opts.text = "I've invented a device that bites shiny metal asses.";
+      opts.type = "success";
+      break;
+    }
 
-    var tweetsArrClinton=$.getJSON('/clinton_tweets',function(arr){
-     // var arr=$.getJSON('https://twitterelections.herokuapp.com/tweets/all/voteclinton/2016-11-01/2016-11-08',function(arr){
-      $.each(arr, function(i, tweet) {
-          
-        setTimeout(function(){
-          $('#text-tweet-clinton').text(tweet.text);
-          $('#image-tweet-clinton').attr('src', tweet.imageURL);
-          $('#date-tweet-clinton').text(tweet.date);
-          $('#user-tweet-clinton').text('@'.concat(tweet.username));
-          $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
-          
-        },i*2000);
-        //;
 
-      });
-    });
+    $.when(
+      $.getJSON('http://twitterelections.herokuapp.com/tweets/recent/votetrump',    function(d){ console.info("LOADED: data_trump"); data_trump   = d; }),
+      $.getJSON('http://twitterelections.herokuapp.com/tweets/recent/voteclinton',  function(d){ console.info("LOADED: data_clinton"); data_clinton = d; })
+    )
+    .then(function(arr){
+      var arr = _.shuffle(data_trump.concat(data_clinton));
 
-  </script>
-<!--  <script>
+      var index = 0;
+      setInterval(function() {
+        var tweet = arr[index++];
+        var notify={
+          title: tweet.username,
+          text: tweet.date.concat(" - ").concat(tweet.text),
+          addclass: 'custom',
+          icon: 'fa fa-file-image-o',
+          desktop: {
+            desktop: true,
+            icon: tweet.imageURL,
+          },
+          opacity: .8,
+          stack: modal ? stack_context_modal : stack_context,
+        };
+
+        if (index == arr.length)
+          index = 0
+
+        new PNotify(notify); 
+        $('.ui-pnotify.custom .ui-pnotify-container').css("background-color", (tweet.text.toLowerCase().indexOf("#voteclinton") > 0) ? "#4C7DE0" : "#E52426");
+
+        $('.ui-pnotify-icon').css('background-image', 'url('+tweet.imageURL+')');
+      }, 2000);
+    })
+  }
+
+  show_stack_context('notice');
+</script>
+
+<script>
+  $.getJSON('/trump_tweets',function(arr){ 
+    var index = 0;
+    setInterval(function() {
+      var tweet = arr[index++];
+      $('#text-tweet-trump').text(tweet.text);
+      $('#image-tweet-trump').attr('src', tweet.imageURL);
+      $('#date-tweet-trump').text(tweet.date);
+      $('#user-tweet-trump').text('@'.concat(tweet.username));
+      $('#url-tweet-trump').attr('href', 'https://twitter.com/'.concat(tweet.username));
+      if (index == arr.length)
+        index = 0
+
+    }, 2000);
+  });
+
+
+  $.getJSON('/clinton_tweets',function(arr)
+  { 
+    var index = 0;
+    setInterval(function() {
+      var tweet = arr[index++];
+      $('#text-tweet-clinton').text(tweet.text);
+      $('#image-tweet-clinton').attr('src', tweet.imageURL);
+      $('#date-tweet-clinton').text(tweet.date);
+      $('#user-tweet-clinton').text('@'.concat(tweet.username));
+      $('#url-tweet-clinton').attr('href', 'https://twitter.com/'.concat(tweet.username));
+      if (index == arr.length)
+        index = 0
+    }, 2000);
+  });
+</script>
+
+<!--  Timeline
+
+<script>
     function convert_to_dataset(tweets, hashtag){
       return _.map(tweets, function(t){
         var dd= t.date.split("/");
