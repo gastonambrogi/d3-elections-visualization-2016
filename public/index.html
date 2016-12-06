@@ -152,38 +152,106 @@
   </nav>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-9">
-        <div class="panel panel-default states-panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">Seleccione un estado</h3>
-          </div>
-          <div class="panel-body">
-            <svg width="960" height="500"></svg>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="panel panel-default results-panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">(Huffington Post) Resultados de la encuesta</h3>
-          </div>
-          <div class="panel-body">
-            <p></p>
-            <div id="chart" style="height: 150px;"></div>
-          </div>
-        </div>        
+      <div class="col-md-12">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+          <li role="presentation"><a href="#tweets" aria-controls="tweets" role="tab" data-toggle="tab">Tweets</a></li>
+        </ul>
 
-        <div class="panel panel-default pollyvote-panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">(PollyVote) Resultados de la encuesta</h3>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="panel panel-default states-panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Seleccione un estado</h3>
+                  </div>
+                  <div class="panel-body">
+                    <svg width="960" height="500"></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="panel panel-default results-panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">(Huffington Post) Resultados de la encuesta</h3>
+                  </div>
+                  <div class="panel-body">
+                    <p></p>
+                    <div id="chart" style="height: 150px;"></div>
+                  </div>
+                </div>        
+
+                <div class="panel panel-default pollyvote-panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">(PollyVote) Resultados de la encuesta</h3>
+                  </div>
+                  <div class="panel-body">
+                    <p></p>
+                    <div id="chart_pollyvote" style="height: 150px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="panel-body">
-            <p></p>
-            <div id="chart_pollyvote" style="height: 150px;"></div>
+          <div role="tabpanel" class="tab-pane" id="tweets">
+            <div class="row">
+              <div class="col-md-4">
+                <h2>#VoteTrump</h2>
+                <ul class="timeline trump">
+                  <li id="trump-tweet">
+                    <div class="avatar">
+                      <a id="url-tweet-trump" class="icon-twitter" href="" target="_blank">
+                        <img id="image-tweet-trump" src="">        
+                      </a>  
+                    </div>
+                    <div class="bubble-container">
+                      <div class="bubble">
+                        <h3 id="user-tweet-trump"></h3> <br>
+                        <small><span id="date-tweet-trump"></span></small> <br>
+                        <span id="text-tweet-trump" class="text-tweet"></span>
+                      </div>
+                      <div class="arrow"></div>
+                    </div>
+                  </li>
+                </ul>  
+              </div>
+              <div class="col-md-4">
+              <h2>#VoteClinton</h2>
+                <ul class="timeline clinton">
+                  <li>
+                  <span id="clinton-tweet">
+                    <div class="avatar">
+                      <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
+                        <img id="image-tweet-clinton" src="">        
+                      </a>  
+                    </div>
+                    <div class="bubble-container">
+                      <div class="bubble">
+                        <h3 id="user-tweet-clinton"></h3><br>
+                        <small><span id="date-tweet-clinton"></span></small><br>
+                        <span id="text-tweet-clinton" class="text-tweet"></span>
+                      </div>
+                      <div class="arrow"></div>
+                    </div>
+                  </span>  
+                  </li>
+                </ul>  
+              </div>
+
+              <div class="col-md-3">
+                <h2>Tweets Recientes</h2>
+                <div id="recientes" style="height:200px;"></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+      </div>  
     </div>
+
 
     <!--<div class="row">
       <div class="col-md-12">
@@ -191,55 +259,7 @@
       </div>
     </div>-->
 
-    <div class="row">
-      <div class="col-md-4">
-        <h2>#VoteTrump</h2>
-        <ul class="timeline trump">
-          <li id="trump-tweet">
-            <div class="avatar">
-              <a id="url-tweet-trump" class="icon-twitter" href="" target="_blank">
-                <img id="image-tweet-trump" src="">        
-              </a>  
-            </div>
-            <div class="bubble-container">
-              <div class="bubble">
-                <h3 id="user-tweet-trump"></h3> <br>
-                <small><span id="date-tweet-trump"></span></small> <br>
-                <span id="text-tweet-trump" class="text-tweet"></span>
-              </div>
-              <div class="arrow"></div>
-            </div>
-          </li>
-        </ul>  
-      </div>
-      <div class="col-md-4">
-      <h2>#VoteClinton</h2>
-        <ul class="timeline clinton">
-          <li>
-          <span id="clinton-tweet">
-            <div class="avatar">
-              <a id="url-tweet-clinton" class="icon-twitter" href="" target="_blank">
-                <img id="image-tweet-clinton" src="">        
-              </a>  
-            </div>
-            <div class="bubble-container">
-              <div class="bubble">
-                <h3 id="user-tweet-clinton"></h3><br>
-                <small><span id="date-tweet-clinton"></span></small><br>
-                <span id="text-tweet-clinton" class="text-tweet"></span>
-              </div>
-              <div class="arrow"></div>
-            </div>
-          </span>  
-          </li>
-        </ul>  
-      </div>
 
-      <div class="col-md-3">
-        <h2>Tweets Recientes</h2>
-        <div id="recientes" style="height:200px;"></div>
-      </div>
-    </div>
   </div>
 
   <script>
